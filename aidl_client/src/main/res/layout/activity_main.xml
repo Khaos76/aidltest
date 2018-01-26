@@ -11,23 +11,25 @@
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:hint="name"
         android:inputType="text" />
     <EditText
         android:id="@+id/num1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:hint="num1"
         android:inputType="number" />
     <EditText
         android:id="@+id/num2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:hint="num2"
         android:inputType="number" />
     <Button
         android:id="@+id/multiply_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Multiply"
-        android:onClick="multiply" />
+        android:text="Multiply" />
     <TextView
         android:id="@+id/result"
         android:layout_width="wrap_content"
