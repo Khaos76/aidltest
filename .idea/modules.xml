@@ -4,10 +4,13 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/aidl_client/aidl_client.iml" filepath="$PROJECT_DIR$/aidl_client/aidl_client.iml" />
       <module fileurl="file://E:\Programowanie\Android\aidl\aidltest\aidl_client\aidl_client.iml" filepath="E:\Programowanie\Android\aidl\aidltest\aidl_client\aidl_client.iml" />
+      <module fileurl="file://D:\programy_pisane\Android\aidltest\aidl_client\aidl_client.iml" filepath="D:\programy_pisane\Android\aidltest\aidl_client\aidl_client.iml" />
       <module fileurl="file://$PROJECT_DIR$/aidltest.iml" filepath="$PROJECT_DIR$/aidltest.iml" />
       <module fileurl="file://E:\Programowanie\Android\aidl\aidltest\aidltest.iml" filepath="E:\Programowanie\Android\aidl\aidltest\aidltest.iml" />
+      <module fileurl="file://D:\programy_pisane\Android\aidltest\aidltest.iml" filepath="D:\programy_pisane\Android\aidltest\aidltest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://E:\Programowanie\Android\aidl\aidltest\app\app.iml" filepath="E:\Programowanie\Android\aidl\aidltest\app\app.iml" />
+      <module fileurl="file://D:\programy_pisane\Android\aidltest\app\app.iml" filepath="D:\programy_pisane\Android\aidltest\app\app.iml" />
     </modules>
   </component>
 </project>

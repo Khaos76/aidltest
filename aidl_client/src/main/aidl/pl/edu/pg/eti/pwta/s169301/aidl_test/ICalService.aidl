@@ -1,5 +1,5 @@
 // ICalService.aidl
-package pl.edu.pg.eti.pwta.s169301.aidl_client;
+package pl.edu.pg.eti.pwta.s169301.aidl_test;
 
 interface ICalService {
     String getMessage(String name);

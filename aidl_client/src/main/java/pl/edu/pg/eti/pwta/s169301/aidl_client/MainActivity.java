@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import pl.edu.pg.eti.pwta.s169301.aidl_test.ICalService;
+
 public class MainActivity extends Activity {
 
     EditText editName, editVal1, editVal2;
@@ -56,8 +58,10 @@ public class MainActivity extends Activity {
         editVal2 = findViewById(R.id.num2);
         resultView = findViewById(R.id.result);
         if (calService == null) {
-            Intent it = new Intent("ms");
-            bindService(convertImplicitIntentToExplicitIntent(it), connection, Context.BIND_AUTO_CREATE);
+            Intent it = new Intent();
+            ComponentName componentName = new ComponentName("pl.edu.pg.eti.pwta.s169301.aidl_test", "pl.edu.pg.eti.pwta.s169301.aidl_test.CalService");
+            it.setComponent(componentName);
+            bindService(it, connection, Context.BIND_AUTO_CREATE);
         }
     }
     @Override
@@ -70,6 +74,7 @@ public class MainActivity extends Activity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             calService = ICalService.Stub.asInterface(service);
+
             Toast.makeText(getApplicationContext(),"Service Connected", Toast.LENGTH_SHORT)
                     .show();
         }
@@ -82,18 +87,4 @@ public class MainActivity extends Activity {
         }
     };
 
-    public Intent convertImplicitIntentToExplicitIntent(Intent implicitIntent){
-        PackageManager pm = getPackageManager();
-        List<ResolveInfo> resolveInfoList = pm.queryIntentServices(implicitIntent, 0);
-
-        if(resolveInfoList == null || resolveInfoList.size() != 1) {
-            return null;
-        }
-        ResolveInfo serviceInfo = resolveInfoList.get(0);
-        ComponentName component = new ComponentName(serviceInfo.serviceInfo.packageName,
-                serviceInfo.serviceInfo.name);
-        Intent explicitIntent = new Intent(implicitIntent);
-        explicitIntent.setComponent(component);
-        return explicitIntent;
-    }
 }

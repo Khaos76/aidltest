@@ -15,11 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="pl.edu.pg.eti.pwta.s169301.aidl_test.CalService" android:process=":remote">
-            <intent-filter>
-                <action android:name="ms"/>
-            </intent-filter>
-        </service>
+        <service android:name="pl.edu.pg.eti.pwta.s169301.aidl_test.CalService"
+            android:exported="true"
+            android:process="pl.edu.pg.eti.pwta.s169301.aidl_test.remote" />
     </application>
 
 </manifest>
