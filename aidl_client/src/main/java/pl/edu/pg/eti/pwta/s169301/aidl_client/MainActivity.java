@@ -9,18 +9,23 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import pl.edu.pg.eti.pwta.s169301.aidl_test.City;
 import pl.edu.pg.eti.pwta.s169301.aidl_test.ICalService;
 import pl.edu.pg.eti.pwta.s169301.aidl_test.ICalServiceClient;
 
 public class MainActivity extends Activity {
 
-    EditText editName, editVal1, editVal2;
-    TextView resultView;
+    City[] cities = {
+            new City(44,12),
+            new City (23, 19),
+            new City (10,7),
+            new City(45,3)
+    };
+
+
+    TextView resultView, cityView;
     protected ICalService calService = null;
 
     @Override
@@ -33,8 +38,10 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
+                writeCities(cities);
+
                 try {
-                    calService.solve(new City[] {new City(1, 2)}, resultListener);
+                    calService.solve(cities, resultListener);
 
 
                 }catch (RemoteException e){
@@ -47,10 +54,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        editName = findViewById(R.id.name);
-        editVal1 = findViewById(R.id.num1);
-        editVal2 = findViewById(R.id.num2);
         resultView = findViewById(R.id.result);
+        cityView = findViewById(R.id.cities);
 
         if (calService == null) {
             Intent it = new Intent();
@@ -85,15 +90,27 @@ public class MainActivity extends Activity {
 
     private final ICalServiceClient.Stub  resultListener = new ICalServiceClient.Stub() {
         @Override
-        public void result(final int r) throws RemoteException {
+        //public void result(final int r) throws RemoteException {
+        public void result(final String s) throws RemoteException {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    resultView.setText(Integer.toString(r));
+                    //resultView.setText(Integer.toString(r));
+                    resultView.setText(s);
                 }
             });
 
         }
     };
+
+    private void writeCities(City[] cities){
+        StringBuilder builder = new StringBuilder();
+        builder.append("Wykaz pozycji miast: \n");
+        builder.append("nr   x   y\n");
+        for (int i = 0; i<cities.length; i++){
+            builder.append(i+1+". " + cities[i].x + " " + cities[i].y +"\n");
+        }
+        cityView.setText(builder.toString());
+    }
 
 }

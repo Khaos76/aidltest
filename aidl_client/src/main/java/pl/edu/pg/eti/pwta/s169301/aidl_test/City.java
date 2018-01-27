@@ -8,8 +8,8 @@ import android.os.Parcelable;
  */
 
 public class City implements Parcelable {
-    private int x;
-    private int y;
+    public int x;
+    public int y;
 
     public int describeContents() {
         return 0;
@@ -40,4 +40,12 @@ public class City implements Parcelable {
         this.x = x;
         this.y = y;
     }
-}
+        int getX() {
+            return x;
+        }
+
+        int getY() {
+            return y;
+        }
+
+    }
