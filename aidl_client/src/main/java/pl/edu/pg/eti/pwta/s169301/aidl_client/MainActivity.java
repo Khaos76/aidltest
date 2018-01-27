@@ -1,13 +1,10 @@
 package pl.edu.pg.eti.pwta.s169301.aidl_client;
 
 import android.app.Activity;
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -16,9 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
+import pl.edu.pg.eti.pwta.s169301.aidl_test.City;
 import pl.edu.pg.eti.pwta.s169301.aidl_test.ICalService;
+import pl.edu.pg.eti.pwta.s169301.aidl_test.ICalServiceClient;
 
 public class MainActivity extends Activity {
 
@@ -36,16 +33,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                int num1 = Integer.parseInt(editVal1.getText().toString());
-                int num2 = Integer.parseInt(editVal2.getText().toString());
                 try {
-                    int result = calService.getResult(num1, num2);
-                    String msg = calService.getMessage(editName.getText().toString());
-                    resultView.setText(msg + result);
+                    calService.solve(new City[] {new City(1, 2)}, resultListener);
+
+
                 }catch (RemoteException e){
                     e.printStackTrace();
                 }
-
             }
         });
     }
@@ -57,9 +51,11 @@ public class MainActivity extends Activity {
         editVal1 = findViewById(R.id.num1);
         editVal2 = findViewById(R.id.num2);
         resultView = findViewById(R.id.result);
+
         if (calService == null) {
             Intent it = new Intent();
-            ComponentName componentName = new ComponentName("pl.edu.pg.eti.pwta.s169301.aidl_test", "pl.edu.pg.eti.pwta.s169301.aidl_test.CalService");
+            ComponentName componentName = new ComponentName("pl.edu.pg.eti.pwta.s169301.aidl_test",
+                    "pl.edu.pg.eti.pwta.s169301.aidl_test.CalService");
             it.setComponent(componentName);
             bindService(it, connection, Context.BIND_AUTO_CREATE);
         }
@@ -84,6 +80,19 @@ public class MainActivity extends Activity {
             calService = null;
             Toast.makeText(getApplicationContext(), "Service Disconnected", Toast.LENGTH_SHORT)
                     .show();
+        }
+    };
+
+    private final ICalServiceClient.Stub  resultListener = new ICalServiceClient.Stub() {
+        @Override
+        public void result(final int r) throws RemoteException {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    resultView.setText(Integer.toString(r));
+                }
+            });
+
         }
     };
 
