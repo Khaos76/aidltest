@@ -15,6 +15,9 @@ import java.text.DecimalFormat;
 public class CalService extends Service {
 
     private ICalServiceClient client;
+    private int iterator =0;
+    private int bestDistance = Integer.MAX_VALUE;
+
 
     @Override
     public IBinder onBind(Intent arg0){
@@ -27,13 +30,21 @@ public class CalService extends Service {
 
             client = serviceClient;
             String dlugosc = Integer.toString(cities.length);
-            Log.i("TAG_odległość", Float.toString(distanceBetweenTwoPoints(cities[0], cities[1])));
+
+            //Logi
+            Log.i("TAG_odległość", Float.toString(countDistance(cities)));
+            Log.i("TAG_ilość_miast", dlugosc);
+            Log.i("graph", "Start generate");
+            City[] shortestPath = generate(cities.length, cities);
+            Log.i("graph", "Stop generate");
+
+
             // zwracana wartość do clienta
-            client.result(Float.toString(distanceBetweenTwoPoints(cities[0], cities[1])));
+            client.result(shortestPath);
         }
     };
 
-    private float distanceBetweenTwoPoints(City a, City b) {
+    private float distanceBetweenTwoCities(City a, City b) {
         int axbx = a.getX() - b.getX();
         int ayby = a.getY() - b.getY();
         int pow1 = (int) Math.pow(axbx, 2);
@@ -43,5 +54,44 @@ public class CalService extends Service {
         float twoDigitsResult = Float.valueOf(decimalFormat.format(sqrtResult));
 
         return  twoDigitsResult;
+    }
+
+    private int countDistance(City[] graph) {
+        int distance = 0;
+        for (int i = 0; i < graph.length; i++) {
+            distance += distanceBetweenTwoCities(
+                    graph[i],
+                    i + 1 == graph.length ? graph[0] : graph[i + 1]
+            );
+        }
+        return distance;
+    }
+
+    private City[] generate(int n, City[] A) {
+        if (n == 1) {
+            iterator++;
+            int distance = countDistance(A);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+            }
+        } else {
+            for(int i = 0; i < n - 1; i++) {
+                generate(n - 1, A);
+                if (n % 2 == 0) {
+                    City a = A[i];
+                    City b = A[n - 1];
+                    A[i] = b;
+                    A[n-1] = a;
+                } else {
+                    City a = A[0];
+                    City b = A[n - 1];
+                    A[0] = b;
+                    A[n-1] = a;
+                }
+            }
+            generate(n - 1, A);
+        }
+
+        return A;
     }
 }

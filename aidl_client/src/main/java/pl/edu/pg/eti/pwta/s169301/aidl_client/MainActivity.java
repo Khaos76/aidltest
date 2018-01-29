@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                writeCities(cities);
+                writeCities(cities, cityView);
 
                 try {
                     calService.solve(cities, resultListener);
@@ -91,26 +91,29 @@ public class MainActivity extends Activity {
     private final ICalServiceClient.Stub  resultListener = new ICalServiceClient.Stub() {
         @Override
         //public void result(final int r) throws RemoteException {
-        public void result(final String s) throws RemoteException {
+        //public void result(final String s) throws RemoteException {
+        public void result(final City[] shortestPath) throws RemoteException {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     //resultView.setText(Integer.toString(r));
-                    resultView.setText(s);
+                    //resultView.setText(s);
+                    writeCities(shortestPath, resultView);
+
                 }
             });
 
         }
     };
 
-    private void writeCities(City[] cities){
+    private void writeCities(City[] cities, TextView view){
         StringBuilder builder = new StringBuilder();
         builder.append("Wykaz pozycji miast: \n");
         builder.append("nr   x   y\n");
         for (int i = 0; i<cities.length; i++){
             builder.append(i+1+". " + cities[i].x + " " + cities[i].y +"\n");
         }
-        cityView.setText(builder.toString());
+        view.setText(builder.toString());
     }
 
 }
