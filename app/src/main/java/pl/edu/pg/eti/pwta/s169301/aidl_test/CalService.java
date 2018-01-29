@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.util.TimingLogger;
 
 import java.text.DecimalFormat;
 
@@ -32,11 +33,13 @@ public class CalService extends Service {
             String dlugosc = Integer.toString(cities.length);
 
             //Logi
-            Log.i("TAG_odległość", Float.toString(countDistance(cities)));
+
             Log.i("TAG_ilość_miast", dlugosc);
+
             Log.i("graph", "Start generate");
             City[] shortestPath = generate(cities.length, cities);
             Log.i("graph", "Stop generate");
+            Log.i("TAG_odległość", Float.toString(bestDistance));
 
 
             // zwracana wartość do clienta
@@ -71,6 +74,7 @@ public class CalService extends Service {
         if (n == 1) {
             iterator++;
             int distance = countDistance(A);
+            Log.i("TAG_odległość", Float.toString(distance));
             if (distance < bestDistance) {
                 bestDistance = distance;
             }

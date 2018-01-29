@@ -18,11 +18,18 @@ import pl.edu.pg.eti.pwta.s169301.aidl_test.ICalServiceClient;
 public class MainActivity extends Activity {
 
     City[] cities = {
-            new City(44,12),
-            new City (23, 19),
-            new City (10,7),
-            new City(45,3)
+            new City(1,12),
+            new City (7, 19),
+            new City (1,7),
+            new City(4,3),
+            new City(41,3),
+            new City(4,32),
+            new City(2,12),
+            new City(53,32)
     };
+
+    String KOLEJNOSC = "Kolejność odwiedzania miast:";
+    String LISTA = "Lista początkowa miast:";
 
 
     TextView resultView, cityView;
@@ -37,8 +44,9 @@ public class MainActivity extends Activity {
         findViewById(R.id.multiply_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                writeCities(cities, cityView);
+                resultView.setText("");
+                cityView.setText("");
+                writeCities(cities, cityView, LISTA);
 
                 try {
                     calService.solve(cities, resultListener);
@@ -96,9 +104,7 @@ public class MainActivity extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //resultView.setText(Integer.toString(r));
-                    //resultView.setText(s);
-                    writeCities(shortestPath, resultView);
+                    writeCities(shortestPath, resultView, KOLEJNOSC);
 
                 }
             });
@@ -106,9 +112,9 @@ public class MainActivity extends Activity {
         }
     };
 
-    private void writeCities(City[] cities, TextView view){
+    private void writeCities(City[] cities, TextView view, String s){
         StringBuilder builder = new StringBuilder();
-        builder.append("Wykaz pozycji miast: \n");
+        builder.append(s + " \n");
         builder.append("nr   x   y\n");
         for (int i = 0; i<cities.length; i++){
             builder.append(i+1+". " + cities[i].x + " " + cities[i].y +"\n");
