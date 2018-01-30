@@ -30,18 +30,18 @@ public class CalService extends Service {
 
             client = serviceClient;
             String dlugosc = Integer.toString(cities.length);
-            long end = 0;
+            double end = 0;
             double timeM = 0;
 
 
             Log.i("TAG_ilość_miast", dlugosc);
 
             Log.i("graph", "Start generate");
-            long start = System.currentTimeMillis();
+            double start = System.currentTimeMillis();
             City[] shortestPath = generate(cities.length, cities);
             end = System.currentTimeMillis();
             Log.i("graph", "Stop generate");
-            timeM = ((double)end - (double) start)/1000d;
+            timeM = (end -  start)/1000d;
             Log.i("TAG_odległość", Float.toString(bestDistance));
             Log.i("TAG_czas", Double.toString(timeM) + "sek");
 
@@ -56,11 +56,11 @@ public class CalService extends Service {
         int ayby = a.getY() - b.getY();
         int pow1 = (int) Math.pow(axbx, 2);
         int pow2 = (int) Math.pow(ayby, 2);
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        //DecimalFormat decimalFormat = new DecimalFormat("#.##");
         float sqrtResult = (float) Math.sqrt(pow1 + pow2);
-        float twoDigitsResult = Float.valueOf(decimalFormat.format(sqrtResult));
+        //float twoDigitsResult = Float.valueOf(decimalFormat.format(sqrtResult));
 
-        return  twoDigitsResult;
+        return  sqrtResult;
     }
 
     private int countDistance(City[] cities) {
