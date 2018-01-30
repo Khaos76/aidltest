@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 public class CalService extends Service {
 
     private ICalServiceClient client;
-    private int iterator =0;
+    private int iterator = 0;
     private int bestDistance = Integer.MAX_VALUE;
 
 
@@ -28,22 +28,26 @@ public class CalService extends Service {
         @Override
         public void solve(City[] cities, ICalServiceClient serviceClient) throws RemoteException {
 
-
             client = serviceClient;
             String dlugosc = Integer.toString(cities.length);
+            long end = 0;
+            double timeM = 0;
 
-            //Logi
 
             Log.i("TAG_ilość_miast", dlugosc);
 
             Log.i("graph", "Start generate");
+            long start = System.currentTimeMillis();
             City[] shortestPath = generate(cities.length, cities);
+            end = System.currentTimeMillis();
             Log.i("graph", "Stop generate");
+            timeM = ((double)end - (double) start)/1000d;
             Log.i("TAG_odległość", Float.toString(bestDistance));
+            Log.i("TAG_czas", Double.toString(timeM) + "sek");
 
 
-            // zwracana wartość do clienta
-            client.result(shortestPath);
+            // zwracana wartość do klienta
+            client.result(shortestPath, bestDistance, iterator, timeM);
         }
     };
 
@@ -59,12 +63,12 @@ public class CalService extends Service {
         return  twoDigitsResult;
     }
 
-    private int countDistance(City[] graph) {
+    private int countDistance(City[] cities) {
         int distance = 0;
-        for (int i = 0; i < graph.length; i++) {
+        for (int i = 0; i < cities.length; i++) {
             distance += distanceBetweenTwoCities(
-                    graph[i],
-                    i + 1 == graph.length ? graph[0] : graph[i + 1]
+                    cities[i],
+                    i + 1 == cities.length ? cities[0] : cities[i + 1]
             );
         }
         return distance;
@@ -74,7 +78,7 @@ public class CalService extends Service {
         if (n == 1) {
             iterator++;
             int distance = countDistance(A);
-            Log.i("TAG_odległość", Float.toString(distance));
+            Log.i("TAG_odległość", Integer.toString(distance));
             if (distance < bestDistance) {
                 bestDistance = distance;
             }
@@ -98,4 +102,6 @@ public class CalService extends Service {
 
         return A;
     }
+
+
 }
