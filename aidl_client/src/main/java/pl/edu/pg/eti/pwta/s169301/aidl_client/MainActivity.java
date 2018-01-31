@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
     String KOLEJNOSC = "Kolejność odwiedzania miast:";
     String LISTA = "Lista wczytanych miast:";
     private static final String inputFile = "input.txt";
-    private static final String outputFileName = "output.doc";
+    private static final String outputFileName = "output.txt";
 
 
     TextView resultView, cityView;
