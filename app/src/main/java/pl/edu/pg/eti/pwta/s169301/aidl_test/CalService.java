@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 public class CalService extends Service {
 
     private ICalServiceClient client;
-    private int iterator = 0;
+    private int iterator;
     private int bestDistance = Integer.MAX_VALUE;
 
 
@@ -28,6 +28,7 @@ public class CalService extends Service {
         @Override
         public void solve(City[] cities, ICalServiceClient serviceClient) throws RemoteException {
 
+            iterator = 0;
             client = serviceClient;
             String dlugosc = Integer.toString(cities.length);
             double end = 0;
@@ -56,9 +57,8 @@ public class CalService extends Service {
         int ayby = a.getY() - b.getY();
         int pow1 = (int) Math.pow(axbx, 2);
         int pow2 = (int) Math.pow(ayby, 2);
-        //DecimalFormat decimalFormat = new DecimalFormat("#.##");
         float sqrtResult = (float) Math.sqrt(pow1 + pow2);
-        //float twoDigitsResult = Float.valueOf(decimalFormat.format(sqrtResult));
+
 
         return  sqrtResult;
     }
